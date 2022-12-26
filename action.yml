@@ -5,9 +5,13 @@ inputs:
     description: "Path to Podfile archive"
     required: true
     default: Podfile
+  repo-token:
+    description: "Github Personal Access Token"
+    required: true
+    default: ${{github.token}}
 outputs:
   is-valide:
     description: "Bollean that defines if Podfile doesn't have :branch statement"
 runs:
-  using: node12
+  using: node16
   main: index.js
