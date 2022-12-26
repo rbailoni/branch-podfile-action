@@ -1,0 +1,13 @@
+name: "Validate Branch Podfile"
+description: "Checks if the Podfile archive has the :branch statement"
+inputs:
+  podfile-path:
+    description: "Path to Podfile archive"
+    required: true
+    default: Podfile
+outputs:
+  is-valide:
+    description: "Bollean that defines if Podfile doesn't have :branch statement"
+runs:
+  using: node12
+  main: index.js
