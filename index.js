@@ -55,7 +55,7 @@ async function showResult() {
             }
         });
     } else {
-        core.notice("Validation pass");
+        core.notice("Validation OK");
     }
 }
 
