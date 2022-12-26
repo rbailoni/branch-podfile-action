@@ -5,7 +5,8 @@ const github = require('@actions/github');
 (
     async () => {
         try {
-            core.notice("Validating Podfile...");
+            const podPath = core.getInput('podfile-path')
+            core.notice("Validating... " + podPath);
         } catch (error) {
             core.setFailed(error.message);
         }
