@@ -71,7 +71,7 @@ async function loadAnnotations() {
         };
         annotations.push(annotation);
     });
-    return JSON.stringify(annotations);
+    return annotations;
 }
 
 (
