@@ -51,13 +51,7 @@ async function showResult() {
             output: {
                 title: "Podfile has :branch annotation",
                 summary: "Please remove :branch annotation in Podfile",
-                annotations: [{
-                    path: podPath,
-                    start_line: 1,
-                    end_line: 1,
-                    annotation_level: 'failure',
-                    message: "Podfile has :branch annotation"
-                }]
+                annotations: await loadAnnotations()
             }
         });
         console.log("Annotation" + JSON.stringify(check));
