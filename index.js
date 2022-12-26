@@ -51,7 +51,7 @@ async function showResult() {
             output: {
                 title: "Podfile has :branch annotation",
                 summary: "Please remove :branch annotation in Podfile",
-                annotations: loadAnnotations()
+                annotations: await loadAnnotations()
             }
         });
     } else {
