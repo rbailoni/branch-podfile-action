@@ -2,9 +2,9 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const fs = require('fs');
 const valueLines = [];
+const podPath = core.getInput('podfile-path');
 
 async function hasBranch() {
-    const podPath = core.getInput('podfile-path');
     const isExist = await fileExists(podPath);
     if (isExist) {
         var numberLine = 1
@@ -51,21 +51,27 @@ async function showResult() {
             output: {
                 title: "Podfile has :branch annotation",
                 summary: "Please remove :branch annotation in Podfile",
-                annotations: [
-                    {
-                        path: podPath,
-                        start_line: valueLines[0],
-                        end_line: valueLines[0],
-                        annotation_level: 'failure',
-                        message: "Podfile has :branch annotation"
-                    }
-
-                ]
+                annotations: loadAnnotations()
             }
         });
     } else {
         core.notice("Validation pass");
     }
+}
+
+async function loadAnnotations() {
+    var annotations = [];
+    valueLines.forEach(numRow => {
+        var annotation = {
+            path: podPath,
+            start_line: numRow,
+            end_line: numRow,
+            annotation_level: 'failure',
+            message: "Podfile has :branch annotation"
+        };
+        annotations.push(annotation);
+    });
+    return JSON.stringify(annotations);
 }
 
 (
