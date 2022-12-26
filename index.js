@@ -54,6 +54,7 @@ async function showResult() {
                 annotations: await loadAnnotations()
             }
         });
+        console.log("Annotation" + check);
     } else {
         core.notice("Validation pass");
     }
