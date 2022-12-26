@@ -5,10 +5,10 @@ const valueLines = [];
 
 async function hasBranch() {
     const podPath = core.getInput('podfile-path');
-    const isExist = await fileExists(filePath);
+    const isExist = await fileExists(podPath);
     if (isExist) {
         var numberLine = 1
-        fs.promises.readFile(filePath, 'utf-8')
+        fs.promises.readFile(podPath, 'utf-8')
             .then(content => {
                 content.split(/\r?\n/).forEach(text => {
                     if (text.indexOf(":branch") >= 0) {
