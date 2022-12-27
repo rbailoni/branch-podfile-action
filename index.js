@@ -19,6 +19,7 @@ async function hasBranch() {
                 showResult();
             })
             .catch(() => {
+                core.setOutput('is-valide', false);
                 core.setFailed('Read File failed');
             })
     }
@@ -30,6 +31,7 @@ async function fileExists(filePath) {
         return true;
     })
     .catch(() => {
+        core.setOutput('is-valide', false);
         core.setFailed(`File ${filePath} does not exist`);
         return false;
     });
@@ -39,6 +41,7 @@ async function showResult() {
     if (valueLines.length > 0) {
         const token = core.getInput('repo-token');
         const podPath = core.getInput('podfile-path');
+        core.setOutput('is-valide', false);
         core.setFailed("Validation did not pass");
         const octokit = new github.getOctokit(token);
         const check = await octokit.rest.checks.create({
@@ -49,12 +52,13 @@ async function showResult() {
             status: 'completed',
             conclusion: 'failure',
             output: {
-                title: "Podfile has :branch annotation",
-                summary: "Please remove :branch annotation in Podfile",
+                title: "Podfile has :branch statement",
+                summary: "Please remove :branch statement in Podfile",
                 annotations: await loadAnnotations()
             }
         });
     } else {
+        core.setOutput('is-valide', true);
         core.notice("Validation OK");
     }
 }
@@ -67,7 +71,7 @@ async function loadAnnotations() {
             start_line: numRow,
             end_line: numRow,
             annotation_level: 'failure',
-            message: "Podfile has :branch annotation"
+            message: "Podfile has :branch statement"
         };
         annotations.push(annotation);
     });
@@ -80,6 +84,7 @@ async function loadAnnotations() {
             core.notice("Validating Podfile... ");
             hasBranch();
         } catch (error) {
+            core.setOutput('is-valide', false);
             core.setFailed(error.message);
         }
     }
